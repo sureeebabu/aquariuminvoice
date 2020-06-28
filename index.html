@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" >
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script> -->
+    
+</head>
+<body>
+
+    <div class="container-fluid pt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Item Description</label>
+                        <textarea type="text" id="itemDesc" required rows="5" placeholder="Enter Item Description"
+                            class="form-control"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Price</label>
+                        <input type="text" id="itemPrice" required placeholder="Enter Price" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exQuantity">Quantity</label>
+                        <input type="text" id="itemQty" required="required" placeholder="Enter Quantity" class="form-control" />
+                    </div>
+                
+                
+                    <input type="button" value="Submit" class="btn btn-primary" onclick="addFunc()">
+                    <input type="reset" value="Reset" class="btn btn-danger">
+                </form>
+                <!-- <input type="button" value="List" class="btn btn-success" onclick="listFn()"> -->
+                
+                
+            </div>
+
+            <div class="col-md-6">
+                <!-- <input type="button" value="View Table" class="btn btn-success" onclick="displayTable()"> -->
+                <input type="button" value="Delete Invoice" class="btn btn-danger" onclick="destroyFn()">
+                <input type="button" value="Generate Invoice" class="btn btn-success" onclick="exportPDF()">
+
+                <div class="table-responsive pt-2">
+                    <div id="tblReport"></div>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-12">
+                <iframe id="output" width="100%" height="650px"></iframe>
+            </div> -->
+
+        </div>
+
+     
+    </div>
+    
+    
+    
+
+    <script src="js/localstorage.js"></script>
+    <script src="js/jspdf.debug.js"></script>
+    <script src="js/jspdf.plugin.autotable.js"></script>
+    <script src="js/pdf.js"></script>
+    <script>
+        
+        displayTable();
+
+        function addFunc() {
+            let item = document.getElementById('itemDesc').value;
+            let itemPrice = document.getElementById('itemPrice').value;
+            let itemQty = document.getElementById('itemQty').value;
+            console.log(item);
+
+            incID = 1;
+            if (cartLS.list().length > 0) {
+                incID += cartLS.list().length;
+            }
+
+            console.log(cartLS.list().length);
+
+            cartLS.add({id: incID, itemname: item, price: itemPrice}, itemQty);
+
+            displayTable();
+        }
+
+        function listFn() {
+            console.log(cartLS.list());
+        }
+
+        function destroyFn() {
+            cartLS.destroy();
+            displayTable();
+        }
+
+
+        function displayTable() {
+            var slNo = 1;
+            var htmlStr = "";
+            var jsonObj = cartLS.list();
+
+            htmlStr = "<table id='tblInvoice' class='table table-bordered table-hover '>"
+            htmlStr = htmlStr + "<tr class='info'>"
+            htmlStr = htmlStr + "<th class='text-center'>#</th>"
+            //htmlStr = htmlStr + "<th class='text-center'>Message ID</th>"
+            htmlStr = htmlStr + "<th class='text-center'>ITEM DESCRIPTION</th>"
+            htmlStr = htmlStr + "<th class='text-center'>PRICE</th>"
+            htmlStr = htmlStr + "<th class='text-center'>QTY</th>"
+            htmlStr = htmlStr + "<th class='text-center'>TOTAL</th>"
+            
+            htmlStr = htmlStr + "</tr>"
+
+            for (var i = 0 ; i < jsonObj.length ; i++) {
+
+                htmlStr = htmlStr + "<tr>"
+                htmlStr = htmlStr + "<td class='text-center'>" + slNo++ + "</td>"
+                htmlStr = htmlStr + "<td class='text-left'>" + jsonObj[i].itemname + "</td>"
+                htmlStr = htmlStr + "<td class='text-center'>" + jsonObj[i].price + "</td>"
+                htmlStr = htmlStr + "<td class='text-center'>" + jsonObj[i].quantity + "</td>"
+                htmlStr = htmlStr + "<td class='text-center'>" + (jsonObj[i].price * jsonObj[i].quantity).toFixed(2) + "</td>"
+                htmlStr = htmlStr + "</tr>"
+                //console.log(jsonObj.messages[i].id);
+            }
+
+            if(jsonObj.length === 0 ) {
+                htmlStr = htmlStr + "<tr>"
+                htmlStr = htmlStr + "<td  colspan='5' class='text-center text-danger'>No Record</td>"
+                htmlStr = htmlStr + "</tr>"
+            } else {
+                htmlStr = htmlStr + "<tr>"
+                htmlStr = htmlStr + "<td>&nbsp;</td>"
+                htmlStr = htmlStr + "<td>&nbsp;</td>"
+                htmlStr = htmlStr + "<td>&nbsp;</td>"
+                htmlStr = htmlStr + "<td class='text-right text-danger'>Total</td>"
+                htmlStr = htmlStr + "<td class='text-center'>" + cartLS.total().toFixed(2).replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,') + "</td>"
+                htmlStr = htmlStr + "</tr>"
+            }
+
+            htmlStr = htmlStr + "</table>"
+            document.getElementById('tblReport').innerHTML = htmlStr
+        }
+
+
+        function exportPDF() {
+            generatePdf();
+        }
+
+
+    </script>
+
+
+</body>
+</html>
