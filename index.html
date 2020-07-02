@@ -5,30 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" >
+    <link href="css/main.css" rel="stylesheet" >
     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script> -->
     
 </head>
 <body>
-
+    <div id="particles-js"></div>
     <div class="container-fluid pt-5">
         <div class="row">
             <div class="col-md-6">
                 <form>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Item Description</label>
+                        <label for="exampleInputEmail1" class="text-light">Item Description</label>
                         <textarea type="text" id="itemDesc" required rows="5" placeholder="Enter Item Description"
                             class="form-control"></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Price</label>
+                        <label for="exampleInputPassword1" class="text-light">Price</label>
                         <input type="text" id="itemPrice" required placeholder="Enter Price" class="form-control" />
                     </div>
 
                     <div class="form-group">
-                        <label for="exQuantity">Quantity</label>
+                        <label for="exQuantity" class="text-light">Quantity</label>
                         <input type="text" id="itemQty" required="required" placeholder="Enter Quantity" class="form-control" />
                     </div>
                 
@@ -61,7 +62,8 @@
     </div>
     
     
-    
+    <script src="js/particles.min.js"></script>
+    <script src="js/app.js"></script>    
 
     <script src="js/localstorage.js"></script>
     <script src="js/jspdf.debug.js"></script>
@@ -106,38 +108,38 @@
 
             htmlStr = "<table id='tblInvoice' class='table table-bordered table-hover '>"
             htmlStr = htmlStr + "<tr class='info'>"
-            htmlStr = htmlStr + "<th class='text-center'>#</th>"
+            htmlStr = htmlStr + "<th class='text-center text-light'>#</th>"
             //htmlStr = htmlStr + "<th class='text-center'>Message ID</th>"
-            htmlStr = htmlStr + "<th class='text-center'>ITEM DESCRIPTION</th>"
-            htmlStr = htmlStr + "<th class='text-center'>PRICE</th>"
-            htmlStr = htmlStr + "<th class='text-center'>QTY</th>"
-            htmlStr = htmlStr + "<th class='text-center'>TOTAL</th>"
+            htmlStr = htmlStr + "<th class='text-center text-light'>ITEM DESCRIPTION</th>"
+            htmlStr = htmlStr + "<th class='text-center text-light'>PRICE</th>"
+            htmlStr = htmlStr + "<th class='text-center text-light'>QTY</th>"
+            htmlStr = htmlStr + "<th class='text-center text-light'>TOTAL</th>"
             
             htmlStr = htmlStr + "</tr>"
 
             for (var i = 0 ; i < jsonObj.length ; i++) {
 
                 htmlStr = htmlStr + "<tr>"
-                htmlStr = htmlStr + "<td class='text-center'>" + slNo++ + "</td>"
-                htmlStr = htmlStr + "<td class='text-left'>" + jsonObj[i].itemname + "</td>"
-                htmlStr = htmlStr + "<td class='text-center'>" + jsonObj[i].price + "</td>"
-                htmlStr = htmlStr + "<td class='text-center'>" + jsonObj[i].quantity + "</td>"
-                htmlStr = htmlStr + "<td class='text-center'>" + (jsonObj[i].price * jsonObj[i].quantity).toFixed(2) + "</td>"
+                htmlStr = htmlStr + "<td class='text-center text-light'>" + slNo++ + "</td>"
+                htmlStr = htmlStr + "<td class='text-left text-light'>" + jsonObj[i].itemname + "</td>"
+                htmlStr = htmlStr + "<td class='text-center text-light'>" + jsonObj[i].price + "</td>"
+                htmlStr = htmlStr + "<td class='text-center text-light'>" + jsonObj[i].quantity + "</td>"
+                htmlStr = htmlStr + "<td class='text-center text-light'>" + (jsonObj[i].price * jsonObj[i].quantity).toFixed(2) + "</td>"
                 htmlStr = htmlStr + "</tr>"
                 //console.log(jsonObj.messages[i].id);
             }
 
             if(jsonObj.length === 0 ) {
                 htmlStr = htmlStr + "<tr>"
-                htmlStr = htmlStr + "<td  colspan='5' class='text-center text-danger'>No Record</td>"
+                htmlStr = htmlStr + "<td  colspan='5' class='text-center text-light'>No Record</td>"
                 htmlStr = htmlStr + "</tr>"
             } else {
                 htmlStr = htmlStr + "<tr>"
                 htmlStr = htmlStr + "<td>&nbsp;</td>"
                 htmlStr = htmlStr + "<td>&nbsp;</td>"
                 htmlStr = htmlStr + "<td>&nbsp;</td>"
-                htmlStr = htmlStr + "<td class='text-right text-danger'>Total</td>"
-                htmlStr = htmlStr + "<td class='text-center'>" + cartLS.total().toFixed(2).replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,') + "</td>"
+                htmlStr = htmlStr + "<td class='text-right text-light'>Total</td>"
+                htmlStr = htmlStr + "<td class='text-center text-light'>" + cartLS.total().toFixed(2).replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,') + "</td>"
                 htmlStr = htmlStr + "</tr>"
             }
 
