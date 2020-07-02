@@ -8,3 +8,31 @@
     background-size: cover;
     background-position: 50% 50%;
 }
+.f1 {
+    position: absolute;
+    height: 50px;
+    bottom:15%;
+    right: 0px;
+    animation: mymove 12s linear infinite;
+}
+.f2 {
+    position: absolute;
+    height: 50px;
+    bottom:20%;
+    right: 0px;
+    animation: mymove2 12s linear infinite;
+}
+@keyframes mymove {
+    from {left: 0%;}
+    to {left: 90%;}            
+}
+@keyframes mymove2 {
+    from {right: 0%;}
+    to {right: 90%;}
+    /* 20%  {right : 50px; }
+    40%  {right : 250px; }
+    60%  {right : 450px; }
+    80%  {right : 650px; }
+    90%  {right : 750px; }
+    100% {right : 850px; } */
+}
